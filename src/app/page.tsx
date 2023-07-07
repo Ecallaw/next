@@ -7,6 +7,7 @@ export default function Home() {
     <main>
         <h1 className="capitalize">Home page</h1>
         <Link href="/home">Coucou</Link>
+        <Link href="/home">Salut</Link>
 
     </main>
   )
