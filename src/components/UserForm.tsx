@@ -1,5 +1,6 @@
 'use client'
 
+import { createUser } from "@/models/user";
 import { Switch, useMantineTheme } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconMeteor, IconMoonStars, IconX } from '@tabler/icons-react';
@@ -12,7 +13,7 @@ type Props = {
   onComplete: any;
 };
 
-export default function Dialog(props: Props) {
+export default function UserForm(props: Props) {
   const theme = useMantineTheme();
 
   const [checked, setChecked] = useState(false);
@@ -23,13 +24,20 @@ export default function Dialog(props: Props) {
 
 
   //$$$ comment supprimer le any const createUser = async (e: React.FormEvent) => {
-  const createUser = async (e: any) => {
+  const handleCreateUser = async (e: any) => {
     e.preventDefault()
-    const data = await fetch('/api/user', {
-      method: "POST",
-      body: JSON.stringify({ name: e.target.username.value, isRed: checked })
-    })
-    const res = await data.json()
+    if (e.target.username.value === '') {
+      notifications.show({
+        title: "Impossible de soumettre le formulaire",
+        message: 'Nom vide',
+        color: 'red',
+        icon: <IconX />,
+      })
+      return
+    }
+
+    const res = await createUser({ name: e.target.username.value, isRed: checked })
+
     if (!res.ok) {
       notifications.show({
         title: "Impossible d'ajouter un joueur",
@@ -69,7 +77,7 @@ export default function Dialog(props: Props) {
               </button>
             </div>
             <div className="p-8 space-y-6">
-              <form onSubmit={createUser} id='addForm'>
+              <form onSubmit={handleCreateUser} id='addForm'>
                 <div className="mb-6">
                   <label className="block text-white text-sm font-semibold mb-2" htmlFor="username">
                     Nom du joueur

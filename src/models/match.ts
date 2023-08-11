@@ -1,6 +1,6 @@
 
-export const createGame = async () => {
-  const data = await fetch('/api/game', {
+export const createMatch = async () => {
+  const data = await fetch('/api/match', {
     method: "POST",
     body: JSON.stringify({ name: "Azul", nbPlayer: 4, duration: 90 })
   })
@@ -8,8 +8,8 @@ export const createGame = async () => {
   return res
 }
 
-export const getGames = async () => {
-  const data = await fetch('/api/game', {
+export const getMatchs = async () => {
+  const data = await fetch('/api/match', {
     method: "GET",
   })
   return await data.json()

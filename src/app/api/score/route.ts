@@ -28,7 +28,24 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
-    const users = await prisma.user.findMany()
+    const users = await prisma.entryScore.findMany({
+      include: {
+        match: {
+          select: {
+            game: {
+              select: {
+                duration: true,
+              }
+            },
+          }
+        },
+        user: {
+          select: {
+            isRed: true,
+          },
+        }
+      }
+    })
     return NextResponse.json(users)
   } catch (error) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
