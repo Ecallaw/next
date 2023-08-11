@@ -18,7 +18,7 @@ export default async function Versus() {
         <div className="flex flex-col justify-start">
           {users.map(user => {
             return (
-              <div className='flex-grow m-4'>{user.name}</div>
+              <div key={user.id}  className='flex-grow m-4'>{user.name}</div>
             )
           })
           }

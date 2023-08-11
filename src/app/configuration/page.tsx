@@ -12,7 +12,7 @@ import { BiCheckShield, BiShieldX } from 'react-icons/bi/';
 import UserForm from '@/components/UserForm';
 
 
-const deleteUser = async (id: string) => {
+const deleteUser = async (id: number) => {
   const data = await fetch('/api/user/' + id, {
     method: "DELETE",
   })
@@ -73,7 +73,7 @@ export default function Configuration() {
             <h2 className='flex-1 text-xl '>Team <span className='text-blue-600 font-medium'>Blue</span></h2>
             <span className='mr-2'>( {users.filter((user: User) => !user.isRed).length} )</span>
           </div>
-          {users.filter((user: User) => !user.isRed).map((user: User) => {
+          {users.filter((user: any) => !user.isRed).map((user: User) => {
             return (
               <div className='flex mr-6' key={user.id}>
                 <div className='flex-grow ml-6 mb-6'>{user.name}</div>

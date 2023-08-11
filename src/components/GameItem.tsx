@@ -1,11 +1,11 @@
 "use client"
 import { Collapse } from '@mantine/core';
-import { EntryScore, Game } from '@prisma/client';
+import {  Game } from '@prisma/client';
 import { useDisclosure } from '@mantine/hooks';
 import { IconDeviceGamepad } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { compare, getDate, getDelta } from '@/utils/misc';
-import { PiMedalFill, PiMedalLight } from 'react-icons/pi/';
+import { PiMedalFill } from 'react-icons/pi/';
 
 
 type Props = {
@@ -15,9 +15,9 @@ type Props = {
 };
 
 const medalListIcons = [
-  <PiMedalFill color='yellow' />,
-  <PiMedalFill color='grey' />,
-  <PiMedalFill color='brown' />,
+  <PiMedalFill key='gold' color='yellow' />,
+  <PiMedalFill key='silver'color='grey' />,
+  <PiMedalFill key='bronze'color='brown' />,
 ]
 
 export default function GameItem(props: Props) {
