@@ -19,11 +19,8 @@ export default function UserForm(props: Props) {
   const [checked, setChecked] = useState(false);
   const { open, onClose, isRed, onComplete } = props
 
-
   const handleClose = () => onClose();
 
-
-  //$$$ comment supprimer le any const createUser = async (e: React.FormEvent) => {
   const handleCreateUser = async (e: any) => {
     e.preventDefault()
     if (e.target.username.value === '') {
@@ -67,7 +64,7 @@ export default function UserForm(props: Props) {
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <div className="flex items-start justify-between p-6 border-b rounded-t dark:border-gray-600">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                Ajouter un joueur à l'équipe {isRed ? 'rouge' : 'bleue'}
+                 { "Ajouter un joueur à l'équipe " + isRed ? 'rouge' : 'bleue'}
               </h3>
               <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultModal" onClick={handleClose}>
                 <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
