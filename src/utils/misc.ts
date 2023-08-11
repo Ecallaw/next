@@ -18,8 +18,8 @@ export const getDate = (date: Date) => {
 }
 
 export const getDelta = (scores: any) => {
-  const totalBlue = scores.filter((entry: EntryScore) => !entry.user.isRed).reduce((acc, val) => acc + val.result, 0)
-  const totalRed = scores.filter((entry: EntryScore) => entry.user.isRed).reduce((acc, val) => acc + val.result, 0)
+  const totalBlue = scores.filter((entry: any) => !entry.user.isRed).reduce((acc: any, val: any) => acc + val.result, 0)
+  const totalRed = scores.filter((entry: any) => entry.user.isRed).reduce((acc: any, val: any) => acc + val.result, 0)
 
   if (totalBlue > totalRed) {
     return { value: totalBlue - totalRed, colorAtt: 'text-blue-500' }
@@ -35,18 +35,18 @@ export const getDelta = (scores: any) => {
 type getBlueTotal = (score: EntryScore) => number;
 type getRedTotal = (score: EntryScore) => number;
 
-export const getBlueTotal = (score: EntryScore) => {
-  const blueResult = score.filter((entry: EntryScore) => !entry.user.isRed)
+export const getBlueTotal = (score: EntryScore[]) => {
+  const blueResult = score.filter((entry: any) => !entry.user.isRed)
 
-  return blueResult.reduce((acc, val) => {
+  return blueResult.reduce((acc: any, val: any) => {
     return acc + (val.result * val.match.game.duration)
   }, 0)
 }
 
-export const getRedTotal = (score: EntryScore) => {
-  const redResult = score.filter((entry: EntryScore) => entry.user.isRed)
+export const getRedTotal = (score: EntryScore[]) => {
+  const redResult = score.filter((entry: any) => entry.user.isRed)
 
-  return redResult.reduce((acc, val) => {
+  return redResult.reduce((acc : any, val: any) => {
     return acc + (val.result * val.match.game.duration)
   }, 0)
 }
