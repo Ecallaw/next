@@ -17,7 +17,6 @@ export async function DELETE(request: Request,
 
     return NextResponse.json({ name: userDeleted.name, message: "id : " + userDeleted.id + " : player removed", ok: true })
   } catch (error) {
-    console.log("test error", error)
     return NextResponse.json({ error }, { status: 500 })
   }
 }

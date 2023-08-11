@@ -18,7 +18,7 @@ export async function POST(request: Request) {
         isRed: req.isRed
       } as userProps
     })
-    return NextResponse.json({ message: user + "Player added", ok: true })
+    return NextResponse.json({ message: user.name + "Player added", ok: true })
   } catch (error) {
     return NextResponse.json({ error: error }, { status: 500 })
   }

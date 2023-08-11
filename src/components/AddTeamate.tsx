@@ -12,10 +12,6 @@ export default function AddTeamate() {
       method: "POST",
       body: JSON.stringify({ name: "julien" })
     })
-    const res = await data.json()
-    if (!res.ok) {
-      console.log(res.error)
-    }
   }
 
   return (
