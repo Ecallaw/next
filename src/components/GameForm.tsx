@@ -3,16 +3,20 @@
 import { createGame } from "@/models/game";
 import { Input, NumberInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { Game } from "@prisma/client";
 import { IconCheck, IconX } from '@tabler/icons-react';
+import { useState } from "react";
 
 type Props = {
   open: boolean;
   onClose: any;
   onComplete: any;
+  games: Game[];
 };
 
 export default function GameForm(props: Props) {
-  const { open, onClose, onComplete } = props
+  const { open, onClose, onComplete, games } = props
+
   const handleClose = () => onClose();
 
   const handleCreateGame = async (e: any) => {
@@ -25,7 +29,18 @@ export default function GameForm(props: Props) {
         icon: <IconX />,
       })
       return
+    }   
+    const isSameName = games.map(game => game.name.toLowerCase()).includes(e.target.name.value.toLowerCase())
+    if (isSameName) {
+      notifications.show({
+        title: "Impossible de soumettre le formulaire",
+        message: "Jeu déjà existant",
+        color: 'red',
+        icon: <IconX />,
+      })
+      return
     }
+
     const res = await createGame({ name: e.target.name.value, nbPlayer: e.target.nbPlayer.value, duration: e.target.duration.value })
     if (!res.ok) {
       notifications.show({
@@ -41,11 +56,13 @@ export default function GameForm(props: Props) {
         color: 'green',
         icon: <IconCheck />,
       })
-      e.target.name.value = ""
-      e.target.nbPlayer.value = ""
-      e.target.duration.value = ""
-      onClose();
+    
+
+      // onClose();
       onComplete();
+      e.target.name.value = ""
+      e.target.nbPlayer.value = 0
+      e.target.duration.value = 0
     }
   }
 

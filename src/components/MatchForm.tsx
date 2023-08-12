@@ -235,7 +235,7 @@ export default function MatchForm(props: Props) {
               }
               <div>
                 {score.length === 0 && <div className='text-gray-200'>
-                  Aucun résultat ajoutée</div>}
+                  Aucun résultat ajouté</div>}
               </div>
               <div className='flex flex-1 justify-end mt-4 border-gray-200 border-t-2 pt-2'>
                 <Button color="gray" className='bg-blue-700 m-0 h-8'
@@ -286,7 +286,7 @@ export default function MatchForm(props: Props) {
           </div >
         </Collapse >
       </div>
-      <GameForm open={openGameForm} onClose={() => setOpenGameForm(false)} onComplete={() => onAddedGame()} />
+      <GameForm open={openGameForm} onClose={() => setOpenGameForm(false)} onComplete={() => onAddedGame()} games={games} />
     </Drawer >
   );
 }
