@@ -17,9 +17,6 @@ export default function GameForm(props: Props) {
 
   const handleCreateGame = async (e: any) => {
     e.preventDefault()
-    console.log("name", e.target.name.value)
-    console.log("nbPlayer", e.target.nbPlayer.value)
-    console.log("duration", e.target.duration.value)
     if (e.target.name.value === "" || e.target.nbPlayer.value === "" || e.target.duration.value === "") {
       notifications.show({
         title: "Impossible de soumettre le formulaire",
