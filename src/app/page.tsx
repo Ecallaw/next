@@ -50,23 +50,21 @@ export default function Event() {
       <div className='overflow-auto mb-24'>
         <div className=' bg-gray-500 p-6 text-2xl fixed top-0 left-0 w-full z-50'>Event</div>
         <div className='min-h-max relative flex mt-20' >
-          <div className='flex-1  border-white border-r-2 border-b-2'>
-            <h2 className='text-center text-xl mt-10 mb-2 text-blue-500 font-bold'>TEAM BLUE {totalBlue}</h2>
-            {totalBlue}
-            9999
-            <div className='flex-1 text-4xl text-center font-extrabold mb-2'>{totalBlue} pts</div>
-            {/* <div className='flex justify-items-center'>
+          <div className='flex-1 h-60 border-white border-r-2 border-b-2'>
+            <h2 className='text-center text-xl mt-10 mb-2 text-blue-500 font-bold'>TEAM BLUE</h2>
+            <h2 className='text-center text-4xl mt-5 mb-2 text-gray-200 font-bold'>{totalBlue}</h2>
+            {/* <div className='flex-1 text-4xl text-center font-extrabold mb-2'>{totalBlue} pts</div> */}
+            <div className='flex justify-items-center'>
               <IconMoonStars className="flex-1" size="5.2rem" stroke={2} color={theme.colors.blue[9]} />
-            </div> */}
+            </div>
           </div>
-          <div className='flex-1  border-white border-l-2 border-b-2'>
+          <div className='flex-1 h-60 border-white border-l-2 border-b-2'>
             <h2 className='text-center text-xl mt-10 mb-2 text-red-500 font-bold'>TEAM RED</h2>
-            {totalRed}  
-            999
-            <div className='flex-1 text-4xl text-center font-extrabold mb-2'>{totalRed} pts</div>
-            {/* <div className='flex justify-items-center'>
+            <h2 className='text-center text-4xl mt-5 mb-2 text-gray-200 font-bold'>{totalRed}</h2>
+            {/* <div className='flex-1 text-4xl text-center font-extrabold mb-2'>{totalRed} pts</div> */}
+            <div className='flex justify-items-center'>
               <IconMeteor className="flex-1" size="5.2rem" stroke={2} color={theme.colors.red[7]} />
-            </div> */}
+            </div>
           </div>
         </div>
         <div className='relative'>
