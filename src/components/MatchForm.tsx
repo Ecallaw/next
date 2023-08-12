@@ -90,7 +90,6 @@ export default function MatchForm(props: Props) {
 
     const isEmptyError = score.reduce((acc, val) => {
       if (acc) { return acc }
-      console.log("test", (val.userId === '' || val.score === ''))
       return acc === acc && (val.userId === '' || val.score === '')
     }, false)
 
