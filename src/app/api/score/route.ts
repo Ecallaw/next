@@ -1,8 +1,8 @@
 
 import { NextResponse } from "next/server";
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 type scoreProps = {
   matchId: string
@@ -18,10 +18,10 @@ export async function POST(request: Request) {
         userId: req.userId,
         score: req.score
       } as any
-    })
-    return NextResponse.json({ message: score + "Player added", ok: true })
+    });
+    return NextResponse.json({ message: score + "Player added", ok: true });
   } catch (error) {
-    return NextResponse.json({ error: error }, { status: 500 })
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
 
@@ -45,9 +45,22 @@ export async function GET() {
           },
         }
       }
-    })
-    return NextResponse.json(users)
+    });
+    return NextResponse.json(users);
   } catch (error) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const scoresDeleted = await prisma.entryScore.deleteMany({
+      where: {
+        matchId:  { not: null }
+      },
+    });
+
+    return NextResponse.json({ message: "remove all score removed", ok: true });
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }}

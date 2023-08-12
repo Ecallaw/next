@@ -3,7 +3,15 @@
     "next/core-web-vitals"
   ],
   "rules": {
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "no-console": 0
   }
 }
 // {
