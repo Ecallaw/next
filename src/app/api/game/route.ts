@@ -1,8 +1,8 @@
 
 import { NextResponse } from "next/server";
-import { Game, PrismaClient } from '@prisma/client'
+import { Game, PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 
 export async function POST(request: Request) {
@@ -14,10 +14,10 @@ export async function POST(request: Request) {
         nbPlayer: parseInt(req.nbPlayer),
         duration: parseInt(req.duration)
       } as Game
-    })
-    return NextResponse.json({ message: game + "Game created", ok: true })
+    });
+    return NextResponse.json({ message: game + "Game created", ok: true });
   } catch (error) {
-    return NextResponse.json({ error: error }, { status: 500 })
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
 
@@ -26,12 +26,25 @@ export async function GET() {
   try {
     const games = await prisma.game.findMany({
       orderBy: {
-        name: 'asc',
+        name: "asc",
       },
     }
-    )
-    return NextResponse.json(games)
+    );
+    return NextResponse.json(games);
   } catch (error) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const gameDeleted = await prisma.game.deleteMany({
+      where: {
+        nbPlayer:  { not: 0 }
+      },
+    });
+
+    return NextResponse.json({ message: "remove all game removed", ok: true });
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }}

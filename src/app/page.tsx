@@ -1,10 +1,9 @@
 "use client"
-import { useMantineTheme } from '@mantine/core';
+import { Pagination, useMantineTheme } from '@mantine/core';
 import { IconMeteor, IconMoonStars } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import MatchForm from '@/components/MatchForm';
 import { useDisclosure } from '@mantine/hooks';
-import { Match } from '@prisma/client';
 import GameItem from '@/components/GameItem';
 import { getMatchs } from '@/models/match';
 import { getScores } from '@/models/score';
@@ -12,13 +11,16 @@ import { getBlueTotal, getRedTotal } from '@/utils/misc';
 
 export default function Event() {
   const [matchs, setMatchs] = useState([])
+  const [count, setCount] = useState(0)
   const [totalBlue, setTotalBlue] = useState(0)
   const [totalRed, setTotalRed] = useState(0)
   const [opened, { open, close }] = useDisclosure(false);
+  const [activePage, setPage] = useState(1);
   const theme = useMantineTheme();
 
+
   useEffect(() => {
-    getMatchs().then(res => { setMatchs(res) })
+    getMatchs({skip : 0, take: 5}).then(res => {setMatchs(res.matchs); setCount(res.count) })
     getScores().then((res) => {
       if (!res.error) {
         setTotalBlue(getBlueTotal(res) / 10)
@@ -27,8 +29,14 @@ export default function Event() {
     })
   }, [])
 
+  useEffect(() => {
+    const skip = (activePage-1)*5
+    const take = count - skip > 5 ? 5 : count - skip 
+    getMatchs({skip , take}).then(res => {setMatchs(res.matchs); setCount(res.count) })
+  }, [activePage])
+
   const onComplete = () => {
-    getMatchs().then(res => { setMatchs(res) })
+    getMatchs({skip : 0, take: 5}).then(res => {setMatchs(res.matchs); setCount(res.count) })
     getScores().then((res) => {
       if (!res.error) {
         setTotalBlue(getBlueTotal(res) / 10)
@@ -39,7 +47,7 @@ export default function Event() {
 
   return (
     <main className='bg-black flex max-h-[calc(100vh)] min-h-[calc(100vh)] flex-col justify-between'>
-      <div className='overflow-auto mb-20'>
+      <div className='overflow-auto mb-24'>
         <div className=' bg-gray-500 p-6 text-2xl fixed top-0 left-0 w-full z-50'>Event</div>
         <div className='min-h-max relative flex mt-20' >
           <div className='flex-1 h-60 border-white border-r-2 border-b-2'>
@@ -76,8 +84,23 @@ export default function Event() {
             )
           })}
         </div>
+        {matchs && <div className='flex flex-1 mt-4 justify-center h-10'>
+          <Pagination  styles={(theme) => ({
+            control: {
+              color: "#FFF",
+              '&[data-active]': {
+                backgroundImage: theme.fn.gradient({ from: 'blue', to: 'gray' }),
+                border: 0,
+              },
+              '&:hover': {
+                cursor: 'pointer',
+                backgroundColor: "#6b7280 !important",
+              },
+            },
+          })} value={activePage} color='gray' onChange={setPage} total={Math.ceil(count/5)} />
+        </div>}
       </div>
-      <MatchForm opened={opened} onClose={close} onComplete={() => onComplete()} />
+      <MatchForm opened={opened} onClose={close}  onComplete={() => onComplete()} />
     </main >
   )
 }

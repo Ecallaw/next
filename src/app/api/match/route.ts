@@ -1,18 +1,17 @@
 
 import { NextResponse } from "next/server";
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
 import { compare } from "@/utils/misc";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
-//how to fix any
 export async function POST(request: Request) {
   const req = await request.json();
   const sortedScores = await req.scores.sort(compare);
 
   for (let i = 0; i < sortedScores.length; i++) {
     const entry = sortedScores[i];
-    entry.result = sortedScores.length - i
+    entry.result = sortedScores.length - i;
   }
 
   try {
@@ -23,19 +22,25 @@ export async function POST(request: Request) {
           create: [...sortedScores],
         },
       },
-    }) as any
-    return NextResponse.json({ message: match + "match created", ok: true })
+    }) as any;
+    return NextResponse.json({ message: match + "match created", ok: true });
   } catch (error) {
-    return NextResponse.json({ error: error }, { status: 500 })
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
 
 
-export async function GET() {
+export async function GET(request: Request) {
+  const url = new URL(request.url)
+  const skip = url.searchParams.get("skip")
+  const take = url.searchParams.get("take")
   try {
+    const count = await prisma.match.count()
     const matchs = await prisma.match.findMany({
+      skip: parseInt(skip ?? '0'),
+      take: parseInt(take ?? '5'),
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
       include: {
         game: true,
@@ -43,9 +48,24 @@ export async function GET() {
           include: { user: true }
         },
       },
-    })
-    return NextResponse.json(matchs)
+      
+    });
+
+    return NextResponse.json({matchs, count});
   } catch (error) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const matchsDeleted = await prisma.match.deleteMany({
+      where: {
+        gameId:  { not: null }
+      },
+    });
+
+    return NextResponse.json({ message: "remove all match removed", ok: true });
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }}

@@ -18,7 +18,9 @@ export const getDate = (date: Date) => {
 }
 
 export const getDelta = (scores: any) => {
-  const totalBlue = scores.filter((entry: any) => !entry.user.isRed).reduce((acc: any, val: any) => acc + val.result, 0)
+
+  const totalBlue = scores.filter((entry: any) => {
+    !entry.user.isRed}).reduce((acc: any, val: any) => acc + val.result, 0)
   const totalRed = scores.filter((entry: any) => entry.user.isRed).reduce((acc: any, val: any) => acc + val.result, 0)
 
   if (totalBlue > totalRed) {
