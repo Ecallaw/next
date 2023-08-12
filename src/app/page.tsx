@@ -53,6 +53,7 @@ export default function Event() {
           <div className='flex-1 h-60 border-white border-r-2 border-b-2'>
             <h2 className='text-center text-xl mt-10 mb-2 text-blue-500 font-bold'>TEAM BLUE</h2>
             {totalBlue}
+            9999
             <div className='flex-1 text-4xl text-center font-extrabold mb-2'>{totalBlue} pts</div>
             {/* <div className='flex justify-items-center'>
               <IconMoonStars className="flex-1" size="5.2rem" stroke={2} color={theme.colors.blue[9]} />
@@ -60,7 +61,8 @@ export default function Event() {
           </div>
           <div className='flex-1 h-60 border-white border-l-2 border-b-2'>
             <h2 className='text-center text-xl mt-10 mb-2 text-red-500 font-bold'>TEAM RED</h2>
-            {totalRed}
+            {totalRed}  
+            999
             <div className='flex-1 text-4xl text-center font-extrabold mb-2'>{totalRed} pts</div>
             {/* <div className='flex justify-items-center'>
               <IconMeteor className="flex-1" size="5.2rem" stroke={2} color={theme.colors.red[7]} />
