@@ -13,6 +13,33 @@ type Props = {
   onComplete: any;
 };
 
+const updateGame = async (id: string, name: string) => {
+  const data = await fetch("/api/game/?"+ new URLSearchParams({
+    id,
+    name,
+  }), {
+    method: "UPDATE",
+  })
+  const res = await data.json();
+
+  if (!res.ok) {
+    notifications.show({
+      title: "Impossible de supprimer le joueur",
+      message: res.error,
+      color: "red",
+      icon: <IconX />,
+    });
+  } else {
+    notifications.show({
+      title: "Suppression réussite !",
+      message: 'la partie a été supprimer',
+      color: "green",
+      icon: <IconCheck />,
+    });
+  }
+}
+
+
 export default function UserForm(props: Props) {
   const theme = useMantineTheme();
 

@@ -6,9 +6,8 @@ import { IconDeviceGamepad, IconX } from '@tabler/icons-react';
 import { useEffect } from 'react';
 import { compare, getDate, getDelta } from '@/utils/misc';
 import { PiMedalFill } from 'react-icons/pi/';
+import { FaTrophy } from 'react-icons/fa/';
 import {MdRemoveCircle} from 'react-icons/md/'
-import { notifications } from '@mantine/notifications';
-import { IconCheck } from '@tabler/icons-react';
 
 type Props = {
   game: Game;
@@ -38,13 +37,17 @@ export default function GameItem(props: Props) {
   return (
     <div className='py-2'>
       <div className='flex' onClick={opened ? close : open}>
-        <div className={scores[0].user.isRed ? 'w-20 h-20 bg-red-500 flex items-center justify-center' : 'w-20 h-20 bg-blue-500 flex items-center justify-center'} >
-          <IconDeviceGamepad size='2rem' />
+        <div className={'w-20 h-20 flex items-center justify-center ' + delta.bgAtt} >
+          {/* <IconDeviceGamepad size='2rem' color={scores[0].user.isRed ? 'red' : 'blue'}/> */}
+          <IconDeviceGamepad size='2rem'/>
         </div>
         <div className='flex-1 flex items-center'>
           <div className='flex-1 flex-col'>
             <div className='text-2xl text-gray-200 pl-4'>{game.name}</div>
-            <div className='text-sm text-gray-200 pl-4'>{getDate(createdAt)}</div>
+            <div className='flex ml-4'>
+              <FaTrophy color={scores[0].user.isRed ? 'red' : 'blue'}/>         
+              <div className='text-sm text-gray-200 pl-2'>{getDate(createdAt)}</div>
+            </div>
           </div>
           <div className='flex-col'>
             <div className='flex-1 text-2xl text-gray-200 pr-4 '>{scores.length + "/" + game.nbPlayer + ' Joueurs'}</div>

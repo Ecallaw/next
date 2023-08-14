@@ -10,12 +10,43 @@ import { getUsers } from '@/models/user';
 import { getDate } from '@/utils/misc';
 import { getGames } from '@/models/game';
 import GameForm from './GameForm';
+import { MdMoreVert } from 'react-icons/md';
+import UpdateGameForm from './UpdateGameForm';
 
 type Props = {
   opened: boolean;
   onClose: any;
   onComplete: any;
 };
+
+
+const updateGame = async (id: string, name: string) => {
+
+  const data = await fetch("/api/game/" + id , {
+    method: "PUT",
+    body: JSON.stringify({ name })
+  })
+  const res = await data.json();
+
+  
+  if (!res.ok) {
+    notifications.show({
+      title: "Impossible de modifier le jeu",
+      message: res.error,
+      color: "red",
+      icon: <IconX />,
+    });
+  } else {
+    notifications.show({
+      title: "Mise à jours réussite !",
+      message: 'le jeu a été renommé',
+      color: "green",
+      icon: <IconCheck />,
+    });
+  }
+  return res
+}
+
 
 export default function MatchForm(props: Props) {
   const { opened, onClose, onComplete } = props
@@ -24,6 +55,9 @@ export default function MatchForm(props: Props) {
   const [selectedGame, setSelectedGame] = useState<Game | null>(null)
   const [openGameForm, setOpenGameForm] = useState(false)
   const [onCollapse, setOnCollapse] = useState(true)
+  const [openUpdateGameForm, setOpenUpdateGameForm] = useState(false)
+  const [currentName, setCurrentName] = useState('')
+  const [currentId, setCurrentId] = useState('')
   const [score, setScore] = useState([] as any[])
   const [dropdownUser, setDropdownUser] = useState<{ value: string, label: string }[]>([])
 
@@ -146,7 +180,16 @@ export default function MatchForm(props: Props) {
 
   const onAddedGame = () => {
     getGames().then(res => { setGames(res) })
+  }
 
+  const onUpdateGame = (id: string, name: string) => {
+    updateGame(id, name).then((res: any) => {
+      console.log("resazeaze", res)
+
+      if(!res.error){
+        getGames().then(res => { setGames(res) })
+      }
+    })
   }
 
   return (
@@ -278,6 +321,7 @@ export default function MatchForm(props: Props) {
                       <div className='flex-1 text-2xl text-gray-200 pr-4 '>{game.nbPlayer + ' Joueurs'}</div>
                       <div className={'flex-1 text-sm text-right pr-4'}>{'Durée ' + game.duration + " min"}</div>
                     </div>
+                    <MdMoreVert onClick={() => {setCurrentId(game.id+'');setCurrentName(game.name); setOpenUpdateGameForm(true);} }/>
                   </div>
                 </div>
               )
@@ -285,6 +329,8 @@ export default function MatchForm(props: Props) {
           </div >
         </Collapse >
       </div>
+
+      <UpdateGameForm open={openUpdateGameForm} onClose={() => setOpenUpdateGameForm(false)} onUpdateGame={(name: string) => onUpdateGame(currentId, name)} name={currentName}/>
       <GameForm open={openGameForm} onClose={() => setOpenGameForm(false)} onComplete={() => onAddedGame()} games={games} />
     </Drawer >
   );

@@ -89,7 +89,7 @@ export default async function Result() {
             <p className="font-normal text-8xl text-gray-700 dark:text-gray-400">{countMatch}</p>
           </a>
         </div>
-        <div className="flex font-normal text-2xl mt-20">{"Temps total passée aux activitées ludique !"}</div>
+        <div className="text-2xl mt-20">Temps total passée aux activitées ludiques !</div>
         <div className="font-normal text-6xl mt-8 ">{hours + "h " + minutes + "min"}</div>
         <div className="mt-20 flex-col">
           <div className="text-gray-200 text-2xl border-b-2 border-gray-200 pb-2">Classement des joueurs</div>
