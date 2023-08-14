@@ -1,5 +1,5 @@
 "use client"
-import { Drawer, Button, Group, Select, Input, NumberInput, Collapse } from '@mantine/core';
+import { Drawer, Button, Group, Select, Input, NumberInput, Collapse, LoadingOverlay } from '@mantine/core';
 import { Game, User } from '@prisma/client';
 
 import { useEffect, useState } from 'react';
@@ -39,8 +39,7 @@ export default function MatchForm(props: Props) {
         }))
       }
     })
-    getGames().then(res => { setGames(res) })
-
+    getGames().then((res : any) => { setGames(res) })
   }, [])
 
   useEffect(() => {

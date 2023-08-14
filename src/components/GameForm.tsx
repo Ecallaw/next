@@ -58,7 +58,7 @@ export default function GameForm(props: Props) {
       })
     
 
-      // onClose();
+      onClose();
       onComplete();
       e.target.name.value = ""
       e.target.nbPlayer.value = 0

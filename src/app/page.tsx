@@ -1,6 +1,6 @@
 "use client"
 import { Pagination, useMantineTheme } from '@mantine/core';
-import { IconMeteor, IconMoonStars } from '@tabler/icons-react';
+import { IconCheck, IconMeteor, IconMoonStars } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import MatchForm from '@/components/MatchForm';
 import { useDisclosure } from '@mantine/hooks';
@@ -8,6 +8,43 @@ import GameItem from '@/components/GameItem';
 import { getMatchs } from '@/models/match';
 import { getScores } from '@/models/score';
 import { getBlueTotal, getRedTotal } from '@/utils/misc';
+import { IconX } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
+import AdminDeleteMatch from '@/components/AdminDeleteMatch';
+
+
+const deleteMatch = async (id: number) => {
+  const data = await fetch("/api/match/" + id, {
+    method: "DELETE",
+  });
+  const res = await data.json();
+
+  if (!res.ok) {
+    notifications.show({
+      title: "Impossible de supprimer le joueur",
+      message: res.error,
+      color: "red",
+      icon: <IconX />,
+    });
+  } else {
+    notifications.show({
+      title: "Suppression réussite !",
+      message: 'la partie a été supprimer',
+      color: "green",
+      icon: <IconCheck />,
+    });
+  }
+
+  // getMatchs({skip : 0, take: 5}).then(res => {setMatchs(res.matchs); setCount(res.count) })
+  // getScores().then((res) => {
+  //   if (!res.error) {
+  //     setTotalBlue(getBlueTotal(res) / 10)
+  //     setTotalRed(getRedTotal(res) / 10)
+  //   }
+  // })
+
+  return res;
+};
 
 export default function Event() {
   const [matchs, setMatchs] = useState([])
@@ -16,6 +53,8 @@ export default function Event() {
   const [totalRed, setTotalRed] = useState(0)
   const [opened, { open, close }] = useDisclosure(false);
   const [activePage, setPage] = useState(1);
+  const [visible, setVisibility] = useState(false);
+  const [matchId, setMatchId] = useState<number>(-1);
   const theme = useMantineTheme();
 
 
@@ -28,6 +67,7 @@ export default function Event() {
       }
     })
   }, [])
+
 
   useEffect(() => {
     const skip = (activePage-1)*5
@@ -45,15 +85,24 @@ export default function Event() {
     })
   }
 
+  const handleRefresh = () => {
+    getMatchs({skip : 0, take: 5}).then(res => {setMatchs(res.matchs); setCount(res.count) })
+    getScores().then((res) => {
+      if (!res.error) {
+        setTotalBlue(getBlueTotal(res) / 10)
+        setTotalRed(getRedTotal(res) / 10)
+      }
+    })
+  }
+  
   return (
     <main className='bg-black flex max-h-[calc(100vh)] min-h-[calc(100vh)] flex-col justify-between'>
-      <div className='overflow-auto mb-24'>
+      <div className='overflow-auto mb-24 z-50'>
         <div className=' bg-gray-500 p-6 text-2xl fixed top-0 left-0 w-full z-50'>Event</div>
         <div className='min-h-max relative flex mt-20' >
           <div className='flex-1 h-60 border-white border-r-2 border-b-2'>
             <h2 className='text-center text-xl mt-10 mb-2 text-blue-500 font-bold'>TEAM BLUE</h2>
             <h2 className='text-center text-4xl mt-5 mb-2 text-gray-200 font-bold'>{totalBlue}</h2>
-            {/* <div className='flex-1 text-4xl text-center font-extrabold mb-2'>{totalBlue} pts</div> */}
             <div className='flex justify-items-center'>
               <IconMoonStars className="flex-1" size="5.2rem" stroke={2} color={theme.colors.blue[9]} />
             </div>
@@ -61,7 +110,6 @@ export default function Event() {
           <div className='flex-1 h-60 border-white border-l-2 border-b-2'>
             <h2 className='text-center text-xl mt-10 mb-2 text-red-500 font-bold'>TEAM RED</h2>
             <h2 className='text-center text-4xl mt-5 mb-2 text-gray-200 font-bold'>{totalRed}</h2>
-            {/* <div className='flex-1 text-4xl text-center font-extrabold mb-2'>{totalRed} pts</div> */}
             <div className='flex justify-items-center'>
               <IconMeteor className="flex-1" size="5.2rem" stroke={2} color={theme.colors.red[7]} />
             </div>
@@ -81,7 +129,7 @@ export default function Event() {
           {matchs && matchs.map((match: any) => {
             return (
               <div key={match.id}>
-                <GameItem game={match.game} scores={match.scores} createdAt={match.createdAt} />
+                <GameItem game={match.game} scores={match.scores} createdAt={match.createdAt} onDelete={()=> {setMatchId(match.id); setVisibility(true)}}/>
               </div>
             )
           })}
@@ -103,6 +151,7 @@ export default function Event() {
         </div>}
       </div>
       <MatchForm opened={opened} onClose={close}  onComplete={() => onComplete()} />
+      <AdminDeleteMatch open={visible} onClose={() => setVisibility(false)} onDeleteMatch={()=> deleteMatch(matchId).then(res => {console.log('resbro', res), handleRefresh()})} />
     </main >
   )
 }

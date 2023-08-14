@@ -19,19 +19,25 @@ export const getDate = (date: Date) => {
 
 export const getDelta = (scores: any) => {
 
-  const totalBlue = scores.filter((entry: any) => {
-    !entry.user.isRed}).reduce((acc: any, val: any) => acc + val.result, 0)
-  const totalRed = scores.filter((entry: any) => entry.user.isRed).reduce((acc: any, val: any) => acc + val.result, 0)
+  console.log("tet", scores)
 
-  if (totalBlue > totalRed) {
-    return { value: totalBlue - totalRed, colorAtt: 'text-blue-500' }
+  const delta = scores.reduce((acc:any, val:any) => {
+    const value = val.user.isRed ? -val.result : val.result
+    return acc + value
+  }, 0)
+
+  console.log("tet", delta)
+
+
+  if(delta < 0){
+    return { value: Math.abs(delta), colorAtt: 'text-red-500' } 
   }
 
-  if (totalRed > totalBlue) {
-    return { value: totalRed - totalBlue, colorAtt: 'text-red-500' }
+  if(delta > 0) {
+    return { value: Math.abs(delta), colorAtt: 'text-blue-500' } 
   }
 
-  return { value: 0, colorAtt: 'text-gray-200' }
+  return { value: 0, colorAtt: 'text-gray-500' }
 }
 
 type getBlueTotal = (score: EntryScore) => number;

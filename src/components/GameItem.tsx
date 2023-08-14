@@ -1,17 +1,20 @@
 "use client"
-import { Collapse } from '@mantine/core';
+import { Button, Collapse } from '@mantine/core';
 import {  Game } from '@prisma/client';
 import { useDisclosure } from '@mantine/hooks';
-import { IconDeviceGamepad } from '@tabler/icons-react';
+import { IconDeviceGamepad, IconX } from '@tabler/icons-react';
 import { useEffect } from 'react';
 import { compare, getDate, getDelta } from '@/utils/misc';
 import { PiMedalFill } from 'react-icons/pi/';
-
+import {MdRemoveCircle} from 'react-icons/md/'
+import { notifications } from '@mantine/notifications';
+import { IconCheck } from '@tabler/icons-react';
 
 type Props = {
   game: Game;
   scores: any;
   createdAt: Date;
+  onDelete : any;
 };
 
 const medalListIcons = [
@@ -21,7 +24,7 @@ const medalListIcons = [
 ]
 
 export default function GameItem(props: Props) {
-  const { game, scores, createdAt } = props
+  const { game, scores, createdAt, onDelete } = props
   const [opened, { open, close }] = useDisclosure(false);
   useEffect(() => {
     open()
@@ -50,8 +53,9 @@ export default function GameItem(props: Props) {
         </div>
       </div>
       <Collapse in={opened}>
-        <div className={"flex ml-24 pb-2 mr-4 mt-4 flex-1 text-gray-100 pb-2 border-b-2 border-gray-800"}>
+        <div className={"flex items-center ml-24 pb-2 mr-4 mt-4 flex-1 text-gray-100 pb-2 border-b-2 border-gray-800"}>
           <div className='flex-1'>résultats</div>
+          <Button onClick={() => onDelete()} leftIcon={<MdRemoveCircle size="1rem" />} color="gray" className='bg-gray-700 m-0 h-8 mr-4'>Annuler</Button>
           <div className={delta.colorAtt + ' mt-1 text-sm text-right'}>+{delta.value + " (" + (delta.value * game.duration) / 10 + ' pts)'}</div>
         </div>
 
