@@ -3,7 +3,7 @@ import { Button, Collapse } from '@mantine/core';
 import {  Game } from '@prisma/client';
 import { useDisclosure } from '@mantine/hooks';
 import { IconDeviceGamepad, IconX } from '@tabler/icons-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { compare, getDate, getDelta } from '@/utils/misc';
 import { PiMedalFill } from 'react-icons/pi/';
 import { FaTrophy } from 'react-icons/fa/';
@@ -25,10 +25,14 @@ const medalListIcons = [
 export default function GameItem(props: Props) {
   const { game, scores, createdAt, onDelete } = props
   const [opened, { open, close }] = useDisclosure(true);
+  const [delta, setDelta] = useState({ value: 0, colorAtt: 'text-gray-500', bgAtt: 'bg-gray-500' });
+
+  useEffect(() => {
+    setDelta(getDelta(scores))
+  }, [])
   
   scores.sort(compare);
 
-  const delta = getDelta(scores as any)
 
   return (
     <div className='py-2'>

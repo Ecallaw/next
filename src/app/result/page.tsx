@@ -4,7 +4,6 @@ import { compare } from "@/utils/misc";
 import { useEffect, useState } from "react";
 import { PiMedalFill } from "react-icons/pi";
 import { getResults } from "@/models/result";
-import { User } from "@prisma/client";
 
 
 

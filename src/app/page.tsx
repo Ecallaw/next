@@ -115,7 +115,6 @@ export default function Event() {
           </button>
         </div>
         <div className='flex-1 mx-4 mt-10'>
-          {/* <div className='pb-2 text-2xl mb-2 font-semibold border-gray-100 border-b-2'>Résulats</div> */}
           {matchs && matchs.map((match: any) => {
             return (
               <div key={match.id}>
