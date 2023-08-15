@@ -184,8 +184,6 @@ export default function MatchForm(props: Props) {
 
   const onUpdateGame = (id: string, name: string) => {
     updateGame(id, name).then((res: any) => {
-      console.log("resazeaze", res)
-
       if(!res.error){
         getGames().then(res => { setGames(res) })
       }

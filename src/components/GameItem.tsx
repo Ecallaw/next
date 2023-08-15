@@ -33,7 +33,6 @@ export default function GameItem(props: Props) {
 
   const delta = getDelta(scores as any)
 
-
   return (
     <div className='py-2'>
       <div className='flex' onClick={opened ? close : open}>

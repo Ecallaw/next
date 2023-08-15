@@ -151,7 +151,7 @@ export default function Event() {
         </div>}
       </div>
       <MatchForm opened={opened} onClose={close}  onComplete={() => onComplete()} />
-      <AdminDeleteMatch open={visible} onClose={() => setVisibility(false)} onDeleteMatch={()=> deleteMatch(matchId).then(res => {console.log('resbro', res), handleRefresh()})} />
+      <AdminDeleteMatch open={visible} onClose={() => setVisibility(false)} onDeleteMatch={()=> deleteMatch(matchId).then(res => {handleRefresh()})} />
     </main >
   )
 }

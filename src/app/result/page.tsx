@@ -1,10 +1,13 @@
+'use client'
 
 import { compare } from "@/utils/misc";
-import { PrismaClient } from "@prisma/client";
+import { useEffect, useState } from "react";
 import { PiMedalFill } from "react-icons/pi";
+import { getResults } from "@/models/result";
+import { User } from "@prisma/client";
 
 
-const prisma = new PrismaClient();
+
 
 const medalListIcons = [
   <PiMedalFill key='gold' color='yellow' size="2rem" />,
@@ -12,33 +15,48 @@ const medalListIcons = [
   <PiMedalFill key='bronze'color='brown' size="2rem"/>,
 ]
 
-export default async function Result() {
+export default function Result() {
+  const [countUser, setCountUser] = useState(0)
+  const [countMatch, setCountMatch] = useState(0)
+  const [matchs, setMatchs] = useState([])
+  const [userScores, setUserScores] = useState([])
+  
+  useEffect(() => {
+    getResults().then((res) => {
+      if(!res.error){
+        setCountUser(res.countUser)
+        setCountMatch(res.countMatch)
+        setMatchs(res.matchs)
+        setUserScores(res.userScores)
+      }
+    })
+  }, [])
 
-  const countUser = await prisma.user.count()
-  const countMatch = await prisma.match.count()
-  const matchs  = await prisma.match.findMany({
-    include: {
-      game: true,
-      scores: {
-        include: { user: true }
-      },
-    },
-  });
+  // const countUser = await prisma.user.count()
+  // const countMatch = await prisma.match.count()
+  // const matchs  = await prisma.match.findMany({
+  //   include: {
+  //     game: true,
+  //     scores: {
+  //       include: { user: true }
+  //     },
+  //   },
+  // });
 
-  const minutePlayed = matchs.map(match => match.game?.duration).reduce((acc:any, val: any) => {
+  const minutePlayed = matchs.map((match : any) => match.game?.duration).reduce((acc:any, val: any) => {
     return acc + val
   }, 0)
 
   const hours = Math.floor(minutePlayed/60)
   const minutes = minutePlayed%60
 
-  const userScores  = await prisma.user.findMany({
-    include: {
-      scores: {
-        select : { result: true, matchId: true }
-      },
-    },
-  }); 
+  // const userScores  = await prisma.user.findMany({
+  //   include: {
+  //     scores: {
+  //       select : { result: true, matchId: true }
+  //     },
+  //   },
+  // }); 
 
   // const matchScore  = await prisma.match.findMany({
   //   include: {
@@ -53,14 +71,14 @@ export default async function Result() {
   //   },
   // });
 
-  const results = userScores.map(user => {
+  const results = userScores.map((user: any) => {
     return {
       ...user,
-      scores : user.scores.map(score => score.result).reduce((acc :any, val:any) => acc + val, 0)
+      scores : user.scores.map((score: any) => score.result).reduce((acc :any, val:any) => acc + val, 0)
     }
   })
 
-  const classment = results.map(user => {
+  const classment = results.map((user : any) => {
     return {
       name : user.name,
       isRed : user.isRed,
@@ -94,7 +112,7 @@ export default async function Result() {
         <div className="mt-20 flex-col">
           <div className="text-gray-200 text-2xl border-b-2 border-gray-200 pb-2">Classement des joueurs</div>
           <div className="p-4">
-            {classment.map((user, index) => {
+            {classment.map((user : any, index: number ) => {
               return(
                 <div key={user.name + index} className='flex mt-2 '>
                   <div className='mt-1 pl-2 pr-3 border-b-2 border-gray-800'>
