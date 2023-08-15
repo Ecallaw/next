@@ -106,8 +106,8 @@ export default function Result() {
             <p className="font-normal text-8xl text-gray-700 dark:text-gray-400">{countMatch}</p>
           </a>
         </div>
-        <div className="text-2xl mt-20">Temps total passée aux activitées ludiques !</div>
-        <div className="font-normal text-6xl mt-8 ">{hours + "h " + minutes + "min"}</div>
+        <div className="text-2xl mt-20 text-gray-200">Temps total passée aux activitées ludiques !</div>
+        <div className="text-6xl mt-8 text-gray-200">{hours + "h " + minutes + "min"}</div>
         <div className="mt-20 flex-col">
           <div className="text-gray-200 text-2xl border-b-2 border-gray-200 pb-2">Classement des joueurs</div>
           <div className="p-4">
@@ -117,10 +117,10 @@ export default function Result() {
                   <div className='mt-1 pl-2 pr-3 border-b-2 border-gray-800'>
                     {index < medalListIcons.length ? medalListIcons[index] : <div className='pl-8' />}
                   </div>
-                  <div className='w-16 pb-4 pr-4 border-b-2 border-gray-800 text-md mt-2 text-gray-200 text-3xl'>
+                  <div className='w-12 pb-4 border-b-2 border-gray-800 text-md mt-2 text-gray-200 text-xl'>
                     {user.score}
                   </div>
-                  <div className={user.isRed ? "flex-1 mt-2 text-red-400 pb-2 border-b-2 border-gray-800 text-3xl" : " mt-2 flex-1 text-blue-400 pb-2 border-b-2 border-gray-800 text-3xl"}>
+                  <div className={user.isRed ? "flex-1 mt-2 text-red-400 pb-2 border-b-2 border-gray-800 text-xl" : " mt-2 flex-1 text-blue-400 pb-2 border-b-2 border-gray-800 text-xl"}>
                     {user.name}
                   </div>
                 </div>

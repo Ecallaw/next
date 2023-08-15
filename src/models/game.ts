@@ -22,6 +22,7 @@ export const createUser = async (bodyValues: any) => {
 export const getGames = async () => {
   const data = await fetch('/api/game', {
     method: "GET",
+    next: { revalidate: 2 }
   })
   return await data.json()
 }

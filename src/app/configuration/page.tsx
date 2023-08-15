@@ -79,13 +79,13 @@ export default function Configuration() {
           {users.filter((user: any) => !user.isRed).map((user: User) => {
             return (
               <div className='flex mr-6' key={user.id}>
-                <div className='flex-1 ml-6 mb-6'>{user.name}</div>
+                <div className='flex-1 ml-6 mb-6 text-gray-200'>{user.name}</div>
                 {disabledRemove ? <MdOutlineDone size='1.5rem' /> : <IconX onClick={() => deleteUser(user.id).then(res => {
                   if (res.ok) {
                     onComplete();
                   }
                 })
-                } />}
+                } />} 
               </div>
             );
           })}
