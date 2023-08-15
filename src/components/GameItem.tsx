@@ -24,11 +24,8 @@ const medalListIcons = [
 
 export default function GameItem(props: Props) {
   const { game, scores, createdAt, onDelete } = props
-  const [opened, { open, close }] = useDisclosure(false);
-  useEffect(() => {
-    open()
-  }, [])
-
+  const [opened, { open, close }] = useDisclosure(true);
+  
   scores.sort(compare);
 
   const delta = getDelta(scores as any)
@@ -37,7 +34,6 @@ export default function GameItem(props: Props) {
     <div className='py-2'>
       <div className='flex' onClick={opened ? close : open}>
         <div className={'w-20 h-20 flex items-center justify-center ' + delta.bgAtt} >
-          {/* <IconDeviceGamepad size='2rem' color={scores[0].user.isRed ? 'red' : 'blue'}/> */}
           <IconDeviceGamepad size='2rem'/>
         </div>
         <div className='flex-1 flex items-center'>

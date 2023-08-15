@@ -34,15 +34,6 @@ const deleteMatch = async (id: number) => {
       icon: <IconCheck />,
     });
   }
-
-  // getMatchs({skip : 0, take: 5}).then(res => {setMatchs(res.matchs); setCount(res.count) })
-  // getScores().then((res) => {
-  //   if (!res.error) {
-  //     setTotalBlue(getBlueTotal(res) / 10)
-  //     setTotalRed(getRedTotal(res) / 10)
-  //   }
-  // })
-
   return res;
 };
 
@@ -68,10 +59,9 @@ export default function Event() {
     })
   }, [])
 
-
   useEffect(() => {
     const skip = (activePage-1)*5
-    const take = count - skip > 5 ? 5 : count - skip 
+    const take = count - skip > 5 ? 5 : count - skip
     getMatchs({skip , take}).then(res => {setMatchs(res.matchs); setCount(res.count) })
   }, [activePage])
 
