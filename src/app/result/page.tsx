@@ -42,6 +42,8 @@ export default function Result() {
   //   },
   // });
 
+
+  console.log("scores", userScores)
   const minutePlayed = matchs.map((match : any) => match.game?.duration).reduce((acc:any, val: any) => {
     return acc + val
   }, 0)
@@ -73,15 +75,19 @@ export default function Result() {
   const results = userScores.map((user: any) => {
     return {
       ...user,
-      scores : user.scores.map((score: any) => score.result).reduce((acc :any, val:any) => acc + val, 0)
+      scores : user.scores.map((score: any) => score.result).reduce((acc :any, val:any) => acc + val, 0),
+      nbGame : user.scores.length
     }
   })
+
+  console.log("result", results)
 
   const classment = results.map((user : any) => {
     return {
       name : user.name,
       isRed : user.isRed,
-      score :user.scores
+      score : user.scores,
+      nbGame : user.nbGame
     }
   }).sort(compare)
 
@@ -119,6 +125,12 @@ export default function Result() {
                   </div>
                   <div className='w-12 pb-4 border-b-2 border-gray-800 text-md mt-2 text-gray-200 text-xl'>
                     {user.score}
+                  </div>
+                  <div className='w-12 pb-4 border-b-2 border-gray-800 text-md mt-2 text-gray-200 text-xl'>
+                    {(user.score / user.nbGame).toFixed(1)}
+                  </div>
+                  <div className='w-12 pb-4 border-b-2 border-gray-800 text-md mt-2 text-gray-200 text-xl'>
+                    {user.nbGame}
                   </div>
                   <div className={user.isRed ? "flex-1 mt-2 text-red-400 pb-2 border-b-2 border-gray-800 text-xl" : " mt-2 flex-1 text-blue-400 pb-2 border-b-2 border-gray-800 text-xl"}>
                     {user.name}

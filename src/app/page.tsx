@@ -87,7 +87,7 @@ export default function Event() {
   
   return (
     <main className='bg-black flex max-h-[calc(100vh)] min-h-[calc(100vh)] flex-col justify-between'>
-      <div className='overflow-auto mb-24 z-50'>
+      <div className='overflow-auto mb-24 z-30'>
         <div className=' bg-gray-500 p-6 text-2xl fixed top-0 left-0 w-full z-50'>Event</div>
         <div className='min-h-max relative flex mt-20' >
           <div className='flex-1 h-60 border-white border-r-2 border-b-2'>
